@@ -32,9 +32,9 @@ const DonorRoutes = () => {
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">Donor Portal</h2>
                   <p className="text-gray-600 mb-6">Join our community of donors and track your impact in disaster relief efforts.</p>
                   <div className="space-y-4">
-                    <a href="/login" className="btn-primary inline-block">Sign In to Access Portal</a>
+                    <a href="/login" className="bg-green-600 px-4 py-2 rounded-lg text-white inline-block">Sign In to Access Portal</a>
                     <div>
-                      <a href="/donor/donate" className="text-avalanche-600 hover:text-avalanche-700">
+                      <a href="/donor/donate" className="text-green-600 hover:text-green-700">
                         Or make a quick donation as guest →
                       </a>
                     </div>

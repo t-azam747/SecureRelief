@@ -14,7 +14,7 @@ const RoleBasedRouter = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="text-center">
-          <div className="w-12 h-12 mx-auto mb-4 border-b-2 rounded-full animate-spin border-avalanche-600"></div>
+          <div className="w-12 h-12 mx-auto mb-4 border-b-2 rounded-full animate-spin border-green-600"></div>
           <p className="text-gray-600">Determining your dashboard...</p>
         </div>
       </div>

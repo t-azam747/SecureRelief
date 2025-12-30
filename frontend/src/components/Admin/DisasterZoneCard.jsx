@@ -175,7 +175,7 @@ const DisasterZoneCard = ({ zone, onEdit, onViewDetails }) => {
               initial={{ width: 0 }}
               animate={{ width: `${fundingPercentage}%` }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="bg-avalanche-500 h-2 rounded-full"
+              className="bg-green-500 h-2 rounded-full"
             />
           </div>
         </div>
@@ -222,7 +222,7 @@ const DisasterZoneCard = ({ zone, onEdit, onViewDetails }) => {
         {/* Loading Overlay */}
         {loading && (
           <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
-            <div className="w-6 h-6 border-2 border-avalanche-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
       </div>

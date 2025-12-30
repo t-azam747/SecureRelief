@@ -171,7 +171,7 @@ const Register = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-avalanche-50 to-blue-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Header */}
         <motion.div
@@ -181,7 +181,7 @@ const Register = () => {
           className="text-center mb-8"
         >
           <div className="flex items-center justify-center mb-4">
-            <Mountain className="w-12 h-12 text-avalanche-500 mr-2" />
+            <Mountain className="w-12 h-12 text-green-500 mr-2" />
             <h1 className="text-2xl font-bold text-gray-900">Relief Network</h1>
           </div>
           <p className="text-gray-600">
@@ -198,18 +198,18 @@ const Register = () => {
             className="mb-6"
           >
             <div className="flex items-center justify-center space-x-4">
-              <div className={`flex items-center ${currentStep >= 1 ? 'text-avalanche-600' : 'text-gray-400'}`}>
+              <div className={`flex items-center ${currentStep >= 1 ? 'text-green-600' : 'text-gray-400'}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                  currentStep >= 1 ? 'border-avalanche-600 bg-avalanche-600 text-white' : 'border-gray-300'
+                  currentStep >= 1 ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300'
                 }`}>
                   {currentStep > 1 ? <CheckCircle className="w-5 h-5" /> : '1'}
                 </div>
                 <span className="ml-2 text-sm font-medium">Profile</span>
               </div>
-              <div className={`w-8 h-0.5 ${currentStep > 1 ? 'bg-avalanche-600' : 'bg-gray-300'}`} />
-              <div className={`flex items-center ${currentStep >= 2 ? 'text-avalanche-600' : 'text-gray-400'}`}>
+              <div className={`w-8 h-0.5 ${currentStep > 1 ? 'bg-green-600' : 'bg-gray-300'}`} />
+              <div className={`flex items-center ${currentStep >= 2 ? 'text-green-600' : 'text-gray-400'}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                  currentStep >= 2 ? 'border-avalanche-600 bg-avalanche-600 text-white' : 'border-gray-300'
+                  currentStep >= 2 ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300'
                 }`}>
                   2
                 </div>
@@ -231,7 +231,7 @@ const Register = () => {
               onClick={() => setAuthMode('traditional')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 authMode === 'traditional'
-                  ? 'bg-white text-avalanche-700 shadow-sm'
+                  ? 'bg-white text-green-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -242,7 +242,7 @@ const Register = () => {
               onClick={() => setAuthMode('wallet')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 authMode === 'wallet'
-                  ? 'bg-white text-avalanche-700 shadow-sm'
+                  ? 'bg-white text-green-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -270,7 +270,7 @@ const Register = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="text-center">
-                  <Shield className="w-16 h-16 text-avalanche-500 mx-auto mb-4" />
+                  <Shield className="w-16 h-16 text-green-500 mx-auto mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     Web3 Registration
                   </h2>
@@ -325,7 +325,7 @@ const Register = () => {
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleInputChange}
-                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                               errors.firstName ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="First name"
@@ -343,7 +343,7 @@ const Register = () => {
                             name="lastName"
                             value={formData.lastName}
                             onChange={handleInputChange}
-                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                               errors.lastName ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="Last name"
@@ -366,7 +366,7 @@ const Register = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                            className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                               errors.email ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="Enter your email"
@@ -401,7 +401,7 @@ const Register = () => {
                                   />
                                   <div className="ml-3 flex-1">
                                     <div className="flex items-center">
-                                      <IconComponent className="w-5 h-5 text-avalanche-500 mr-2" />
+                                      <IconComponent className="w-5 h-5 text-green-500 mr-2" />
                                       <span className="font-medium text-gray-900">{role.label}</span>
                                     </div>
                                     <p className="text-sm text-gray-600 mt-1">{role.description}</p>
@@ -425,7 +425,7 @@ const Register = () => {
                             name="organization"
                             value={formData.organization}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                             placeholder="Your organization name"
                           />
                         </div>
@@ -461,7 +461,7 @@ const Register = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleInputChange}
-                            className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                            className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                               errors.password ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="Create a password"
@@ -493,7 +493,7 @@ const Register = () => {
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
-                            className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                            className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                               errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="Confirm your password"
@@ -524,7 +524,7 @@ const Register = () => {
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                           placeholder="Your phone number"
                         />
                       </div>
@@ -537,15 +537,15 @@ const Register = () => {
                             name="terms"
                             checked={formData.terms}
                             onChange={handleInputChange}
-                            className="mt-1 text-avalanche-600"
+                            className="mt-1 text-green-600"
                           />
                           <span className="ml-3 text-sm text-gray-600">
                             I agree to the{' '}
-                            <Link to="/terms" className="text-avalanche-600 hover:text-avalanche-700">
+                            <Link to="/terms" className="text-green-600 hover:text-green-700">
                               Terms of Service
                             </Link>
                             {' '}and{' '}
-                            <Link to="/privacy" className="text-avalanche-600 hover:text-avalanche-700">
+                            <Link to="/privacy" className="text-green-600 hover:text-green-700">
                               Privacy Policy
                             </Link>
                           </span>
@@ -595,7 +595,7 @@ const Register = () => {
             Already have an account?{' '}
             <Link 
               to="/login"
-              className="text-avalanche-600 hover:text-avalanche-700 font-medium"
+              className="text-green-600 hover:text-green-700 font-medium"
             >
               Sign in here
             </Link>
@@ -609,7 +609,6 @@ const Register = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-8 text-center text-xs text-gray-500"
         >
-          <p>Powered by Avalanche Blockchain</p>
         </motion.div>
       </div>
     </div>

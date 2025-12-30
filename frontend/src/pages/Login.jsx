@@ -99,8 +99,8 @@ const Login = () => {
       }
 
       // Store auth data (in production, use proper JWT tokens)
-      localStorage.setItem('authToken', `demo-token-${user.role}`);
-      localStorage.setItem('userData', JSON.stringify(user));
+      // localStorage.setItem('authToken', `demo-token-${user.role}`);
+      // localStorage.setItem('userData', JSON.stringify(user));
       
       showSuccess(`Welcome back, ${user.name}!`);
       
@@ -142,7 +142,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-avalanche-50 to-blue-50">
+    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-green-50 to-blue-50">
       <div className="w-full max-w-md">
         {/* Header */}
         <motion.div
@@ -152,7 +152,7 @@ const Login = () => {
           className="mb-8 text-center"
         >
           <div className="flex items-center justify-center mb-4">
-            <Mountain className="w-12 h-12 mr-2 text-avalanche-500" />
+            <Mountain className="w-12 h-12 mr-2 text-green-500" />
             <h1 className="text-2xl font-bold text-gray-900">Relief Network</h1>
           </div>
           <p className="text-gray-600">
@@ -172,7 +172,7 @@ const Login = () => {
               onClick={() => setAuthMode('wallet')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 authMode === 'wallet'
-                  ? 'bg-white text-avalanche-700 shadow-sm'
+                  ? 'bg-white text-green-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -183,7 +183,7 @@ const Login = () => {
               onClick={() => setAuthMode('traditional')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
                 authMode === 'traditional'
-                  ? 'bg-white text-avalanche-700 shadow-sm'
+                  ? 'bg-white text-green-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -211,7 +211,7 @@ const Login = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="text-center">
-                  <Shield className="w-16 h-16 mx-auto mb-4 text-avalanche-500" />
+                  <Shield className="w-16 h-16 mx-auto mb-4 text-green-500" />
                   <h2 className="mb-2 text-xl font-semibold text-gray-900">
                     Web3 Wallet Login
                   </h2>
@@ -260,7 +260,7 @@ const Login = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                        className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                           errors.email ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter your email"
@@ -286,7 +286,7 @@ const Login = () => {
                         name="password"
                         value={formData.password}
                         onChange={handleInputChange}
-                        className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-avalanche-500 focus:border-avalanche-500 ${
+                        className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                           errors.password ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Enter your password"
@@ -352,7 +352,7 @@ const Login = () => {
           <div className="text-sm text-gray-600">
             <Link 
               to="/register"
-              className="font-medium text-avalanche-600 hover:text-avalanche-700"
+              className="font-medium text-green-600 hover:text-green-700"
             >
               Need an account? Register here
             </Link>

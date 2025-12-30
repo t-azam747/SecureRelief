@@ -98,7 +98,7 @@ const GuestWelcome = ({
           })}
         </div>
 
-        <Card className="p-8 bg-gradient-to-r from-avalanche-50 to-blue-50 border-avalanche-200">
+        <Card className="p-8 bg-gradient-to-r from-avalanche-50 to-blue-50 border-green-200">
           <div className="text-center">
             <h2 className="mb-4 text-2xl font-bold text-gray-900">
               Ready to Make a Difference?

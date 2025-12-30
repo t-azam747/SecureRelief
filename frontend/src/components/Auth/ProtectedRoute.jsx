@@ -68,7 +68,7 @@ const ProtectedRoute = ({
                 {!isAuthenticated && (
                   <a
                     href="/login"
-                    className="px-6 py-2 text-white transition-colors rounded-lg bg-avalanche-600 hover:bg-avalanche-700"
+                    className="px-6 py-2 text-white transition-colors rounded-lg bg-green-600 hover:bg-green-700"
                   >
                     Sign In
                   </a>
