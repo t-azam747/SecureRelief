@@ -1,33 +1,52 @@
+'use client';
+
 /**
  * CSP Debugger Utility
  * Helps debug Content Security Policy violations in development
+ * Client-side only (Next.js safe)
  */
 
+type CSPViolation = {
+  timestamp: string;
+  blockedURI: string;
+  violatedDirective: string;
+  effectiveDirective: string;
+  originalPolicy: string;
+  sourceFile: string;
+  lineNumber: number;
+  columnNumber: number;
+  sample: string;
+};
+
 class CSPDebugger {
+  private violations: CSPViolation[] = [];
+  private isDebugMode: boolean;
+
   constructor() {
-    this.violations = [];
     this.isDebugMode = process.env.NODE_ENV === 'development';
+
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
     this.setupViolationListener();
   }
 
-  setupViolationListener() {
+  private setupViolationListener() {
     if (!this.isDebugMode) return;
 
-    // Listen for CSP violations
-    document.addEventListener('securitypolicyviolation', (event) => {
-      this.handleViolation(event);
-    });
+    document.addEventListener(
+      'securitypolicyviolation',
+      (event: SecurityPolicyViolationEvent) => {
+        this.handleViolation(event);
+      }
+    );
 
-    // Also listen for deprecated violation events
-    window.addEventListener('securitypolicyviolation', (event) => {
-      this.handleViolation(event);
-    });
-
-    console.log('🛡️ CSP Debugger initialized - watching for violations');
+    console.log('🛡️ CSP Debugger initialized (development mode)');
   }
 
-  handleViolation(event) {
-    const violation = {
+  private handleViolation(event: SecurityPolicyViolationEvent) {
+    const violation: CSPViolation = {
       timestamp: new Date().toISOString(),
       blockedURI: event.blockedURI,
       violatedDirective: event.violatedDirective,
@@ -36,215 +55,183 @@ class CSPDebugger {
       sourceFile: event.sourceFile,
       lineNumber: event.lineNumber,
       columnNumber: event.columnNumber,
-      sample: event.sample
+      sample: event.sample ?? ''
     };
 
     this.violations.push(violation);
 
-    // Log detailed information
     console.group('🚫 CSP Violation Detected');
     console.error('Blocked URI:', violation.blockedURI);
     console.error('Violated Directive:', violation.violatedDirective);
     console.error('Effective Directive:', violation.effectiveDirective);
-    console.error('Source:', `${violation.sourceFile}:${violation.lineNumber}:${violation.columnNumber}`);
+    console.error(
+      'Source:',
+      `${violation.sourceFile}:${violation.lineNumber}:${violation.columnNumber}`
+    );
     console.error('Sample:', violation.sample);
     console.error('Full Policy:', violation.originalPolicy);
     console.groupEnd();
 
-    // Provide helpful suggestions
     this.provideSuggestions(violation);
   }
 
-  provideSuggestions(violation) {
-    const { blockedURI, violatedDirective, effectiveDirective } = violation;
+  private provideSuggestions(violation: CSPViolation) {
+    const { blockedURI, effectiveDirective, violatedDirective } = violation;
 
     console.group('💡 CSP Fix Suggestions');
 
-    // Web3 wallet related suggestions
-    if (blockedURI.includes('chrome-extension:') || blockedURI.includes('moz-extension:')) {
+    if (
+      blockedURI.includes('chrome-extension:') ||
+      blockedURI.includes('moz-extension:')
+    ) {
       console.info('🦊 Web3 Wallet Extension Detected');
-      console.info('Add to CSP:', `${effectiveDirective} chrome-extension: moz-extension:;`);
-      console.info('This is required for MetaMask, WalletConnect, and other Web3 wallets');
+      console.info(
+        'Suggested CSP:',
+        `${effectiveDirective} chrome-extension: moz-extension:;`
+      );
     }
 
-    // External script suggestions
-    if (effectiveDirective === 'script-src' && blockedURI.startsWith('https:')) {
+    if (effectiveDirective === 'script-src' && blockedURI.startsWith('https')) {
       console.info('🌐 External Script Blocked');
-      console.info('Add to CSP:', `script-src 'self' ${blockedURI.split('/').slice(0, 3).join('/')};`);
-      console.warn('⚠️ Only add trusted domains to your CSP');
+      console.info(
+        'Suggested CSP:',
+        `script-src 'self' ${blockedURI
+          .split('/')
+          .slice(0, 3)
+          .join('/')};`
+      );
     }
 
-    // Inline script suggestions
-    if (violatedDirective.includes("'unsafe-inline'") && effectiveDirective === 'script-src') {
+    if (
+      violatedDirective.includes("'unsafe-inline'") &&
+      effectiveDirective === 'script-src'
+    ) {
       console.info('📝 Inline Script Blocked');
-      console.info('Options:');
-      console.info('1. Add "unsafe-inline" to script-src (less secure)');
-      console.info('2. Use nonces for specific inline scripts (more secure)');
-      console.info('3. Move script to external file (most secure)');
+      console.info('Use nonces or external scripts instead');
     }
 
-    // Style suggestions
     if (effectiveDirective === 'style-src') {
       console.info('🎨 Style Blocked');
-      console.info('Add to CSP:', `style-src 'self' 'unsafe-inline';`);
-      console.info('Consider using nonces for production');
+      console.info("Suggested CSP: style-src 'self' 'unsafe-inline';");
     }
 
-    // Font suggestions
-    if (effectiveDirective === 'font-src' && blockedURI.includes('fonts.g')) {
-      console.info('🔤 Google Fonts Blocked');
-      console.info('Add to CSP:', `font-src 'self' https://fonts.gstatic.com;`);
+    if (effectiveDirective === 'font-src') {
+      console.info('🔤 Font Blocked');
+      console.info(
+        "Suggested CSP: font-src 'self' https://fonts.gstatic.com;"
+      );
     }
 
-    // Connect suggestions
     if (effectiveDirective === 'connect-src') {
-      console.info('🔗 Connection Blocked');
-      console.info('Add to CSP:', `connect-src 'self' ${blockedURI.split('/').slice(0, 3).join('/')};`);
-      
-      if (blockedURI.includes('localhost')) {
-        console.info('🏠 Local development connection');
-        console.info('Add: http://localhost:* https://localhost:*');
-      }
-      
-      if (blockedURI.includes('avax') || blockedURI.includes('avalanche')) {
-        console.info('🏔️ Avalanche network connection');
-        console.info('Add: https://api.avax-test.network https://api.avax.network');
-      }
+      console.info('🔗 Network Request Blocked');
+      console.info(
+        'Suggested CSP:',
+        `connect-src 'self' ${blockedURI
+          .split('/')
+          .slice(0, 3)
+          .join('/')};`
+      );
     }
 
     console.groupEnd();
   }
 
-  getViolations() {
+  // ===== Public API =====
+
+  public getViolations(): CSPViolation[] {
     return this.violations;
   }
 
-  getViolationSummary() {
-    const summary = {};
-    this.violations.forEach(violation => {
-      const key = violation.effectiveDirective;
-      if (!summary[key]) summary[key] = [];
-      summary[key].push(violation.blockedURI);
+  public clearViolations() {
+    this.violations = [];
+    console.info('🧹 CSP violations cleared');
+  }
+
+  public getViolationSummary() {
+    const summary: Record<string, string[]> = {};
+
+    this.violations.forEach((v) => {
+      if (!summary[v.effectiveDirective]) {
+        summary[v.effectiveDirective] = [];
+      }
+      summary[v.effectiveDirective].push(v.blockedURI);
     });
+
     return summary;
   }
 
-  generateCSPFix() {
+  public generateCSPFix() {
     const summary = this.getViolationSummary();
-    const fixes = {};
+    const fixes: Record<string, string[]> = {};
 
     Object.entries(summary).forEach(([directive, uris]) => {
-      const uniqueUris = [...new Set(uris)];
-      fixes[directive] = uniqueUris.map(uri => {
-        if (uri.includes('chrome-extension:')) return 'chrome-extension:';
-        if (uri.includes('moz-extension:')) return 'moz-extension:';
-        if (uri.startsWith('https:')) return uri.split('/').slice(0, 3).join('/');
-        if (uri.startsWith('http:')) return uri.split('/').slice(0, 3).join('/');
+      fixes[directive] = [...new Set(uris)].map((uri) => {
+        if (uri.startsWith('https://') || uri.startsWith('http://')) {
+          return uri.split('/').slice(0, 3).join('/');
+        }
         return uri;
       });
     });
 
     console.group('🔧 Generated CSP Fixes');
-    Object.entries(fixes).forEach(([directive, sources]) => {
-      console.info(`${directive}: ${sources.join(' ')}`);
+    Object.entries(fixes).forEach(([dir, sources]) => {
+      console.info(`${dir}: ${sources.join(' ')}`);
     });
     console.groupEnd();
 
     return fixes;
   }
 
-  clearViolations() {
-    this.violations = [];
-    console.info('🧹 CSP violations cleared');
-  }
+  public checkCSP() {
+    if (typeof document === 'undefined') return false;
 
-  // Check if current page has CSP
-  checkCSP() {
-    const metaCSP = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
-    const hasCSP = metaCSP || document.querySelector('meta[http-equiv="content-security-policy"]');
-    
-    if (hasCSP) {
-      console.group('🛡️ Current CSP Policy');
-      console.info('Source:', metaCSP ? 'Meta tag' : 'HTTP header');
-      console.info('Policy:', metaCSP?.content || 'Check network tab for header');
+    const metaCSP = document.querySelector(
+      'meta[http-equiv="Content-Security-Policy"]'
+    );
+
+    if (metaCSP) {
+      console.group('🛡️ Current CSP');
+      console.info('Source: Meta tag');
+      console.info('Policy:', metaCSP.getAttribute('content'));
       console.groupEnd();
-    } else {
-      console.warn('⚠️ No CSP policy detected');
+      return true;
     }
 
-    return hasCSP;
+    console.warn('⚠️ No CSP policy detected');
+    return false;
   }
 
-  // Test common Web3 resources
-  testWeb3Resources() {
-    if (!this.isDebugMode) return;
+  public testWeb3Resources() {
+    if (!this.isDebugMode || typeof window === 'undefined') return;
 
     console.group('🧪 Testing Web3 Resource Access');
 
-    // Test MetaMask detection
-    if (window.ethereum) {
-      console.info('✅ MetaMask/Web3 provider detected');
+    if ((window as any).ethereum) {
+      console.info('✅ Web3 provider detected');
     } else {
       console.warn('❌ No Web3 provider found');
     }
-
-    // Test common external resources
-    const testResources = [
-      'https://api.avax-test.network',
-      'https://api.pinata.cloud',
-      'https://fonts.googleapis.com'
-    ];
-
-    testResources.forEach(url => {
-      fetch(url, { mode: 'no-cors' })
-        .then(() => console.info(`✅ Can connect to ${url}`))
-        .catch(() => console.warn(`❌ Cannot connect to ${url}`));
-    });
 
     console.groupEnd();
   }
 }
 
-// Create global instance in development
-let cspDebugger;
-if (process.env.NODE_ENV === 'development') {
+// ===== Global Dev Instance =====
+
+let cspDebugger: CSPDebugger | null = null;
+
+if (
+  process.env.NODE_ENV === 'development' &&
+  typeof window !== 'undefined'
+) {
   cspDebugger = new CSPDebugger();
-  
-  // Make available in console
-  window.cspDebugger = cspDebugger;
-  
-  // Auto-check CSP on load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      cspDebugger.checkCSP();
-      cspDebugger.testWeb3Resources();
-    });
-  } else {
-    cspDebugger.checkCSP();
-    cspDebugger.testWeb3Resources();
-  }
+
+  (window as any).cspDebugger = cspDebugger;
+
+  window.addEventListener('load', () => {
+    cspDebugger?.checkCSP();
+    cspDebugger?.testWeb3Resources();
+  });
 }
 
 export default CSPDebugger;
-
-/**
- * Usage in development console:
- * 
- * // View all violations
- * cspDebugger.getViolations()
- * 
- * // Get violation summary
- * cspDebugger.getViolationSummary()
- * 
- * // Generate CSP fixes
- * cspDebugger.generateCSPFix()
- * 
- * // Clear violations
- * cspDebugger.clearViolations()
- * 
- * // Check current CSP
- * cspDebugger.checkCSP()
- * 
- * // Test Web3 resources
- * cspDebugger.testWeb3Resources()
- */

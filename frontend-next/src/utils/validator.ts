@@ -206,6 +206,7 @@ export const VALIDATION_SCHEMAS = {
  * Enhanced Validator class
  */
 export class Validator {
+  private customRules: Map<string, any>;
   constructor() {
     this.customRules = new Map()
   }
@@ -310,7 +311,7 @@ export class Validator {
     const errorMessages = {}
     
     if (validationResult.fieldResults) {
-      for (const [fieldName, result] of Object.entries(validationResult.fieldResults)) {
+      for (const [fieldName, result] of Object.entries(validationResult.fieldResults as Record<string, { isValid: boolean; errors: any[] }>)) {
         if (!result.isValid && result.errors.length > 0) {
           errorMessages[fieldName] = result.errors[0].message
         }
