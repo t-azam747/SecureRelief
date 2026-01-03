@@ -1,10 +1,9 @@
-
 /**
  * Code Splitting Utilities
  * Provides lazy loading and route-based code splitting components
  */
 
-import { Suspense, lazy, forwardRef, useState, useRef, useEffect } from 'react';
+import { Suspense, lazy, forwardRef, useState, useRef, useEffect, ReactNode } from 'react';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 import ErrorBoundary from '@/components/UI/ErrorBoundary';
 import { performanceMonitor } from '@/utils/performance.jsx';
@@ -17,26 +16,72 @@ const SimpleFallback = ({ message = "Loading..." }) => (
   </div>
 );
 
+interface LazyLoadingOptions {
+  fallback?: ReactNode;
+  onError?: (error: Error) => void;
+  retryCount?: number;
+  retryDelay?: number;
+  chunkName?: string;
+}
+
 /**
  * Higher-order component for lazy loading with enhanced error handling
  */
+interface WithLazyLoadingProps {
+  importFn: () => Promise<any>;
+  options?: LazyLoadingOptions;
+}
+
+const LazyErrorFallback: React.FC = () => (
+  <div className="flex flex-col items-center justify-center p-8 text-center">
+    <div className="mb-4 text-red-500">
+      <svg
+        className="w-12 h-12 mx-auto"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          fillRule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </div>
+
+    <h3 className="mb-2 text-lg font-semibold text-gray-900">
+      Failed to load component
+    </h3>
+
+    <p className="mb-4 text-gray-600">
+      There was an error loading this part of the application.
+    </p>
+
+    <button
+      onClick={() => window.location.reload()}
+      className="px-4 py-2 text-white rounded-lg bg-primary-600 hover:bg-primary-700"
+    >
+      Reload Page
+    </button>
+  </div>
+);
+
+
 export const withLazyLoading = (
-  importFn,
-  options = {}
+  importFn: WithLazyLoadingProps['importFn'],
+  options: LazyLoadingOptions = {}
 ) => {
   const {
     fallback = <SimpleFallback message="Loading component..." />,
-    onError = null,
+    onError = () => {},
     retryCount = 3,
     retryDelay = 1000,
-    chunkName = 'lazy-component'
+    chunkName = 'lazy-component',
   } = options;
 
-  // Enhanced lazy component with retry logic
   const LazyComponent = lazy(async () => {
     let retries = 0;
-    
-    const loadWithRetry = async () => {
+
+    const loadWithRetry = async (): Promise<any> => {
       try {
         performanceMonitor.mark(`lazy-load-${chunkName}`);
         const module = await importFn();
@@ -44,14 +89,18 @@ export const withLazyLoading = (
         return module;
       } catch (error) {
         retries++;
-        
+
         if (retries <= retryCount) {
-          console.warn(`Lazy loading failed, retrying... (${retries}/${retryCount})`);
-          await new Promise(resolve => setTimeout(resolve, retryDelay * retries));
+          console.warn(
+            `Lazy loading failed, retrying... (${retries}/${retryCount})`
+          );
+          await new Promise(resolve =>
+            setTimeout(resolve, retryDelay * retries)
+          );
           return loadWithRetry();
         }
-        
-        if (onError) {
+
+        if (onError && error instanceof Error) {
           onError(error);
         }
         throw error;
@@ -61,29 +110,12 @@ export const withLazyLoading = (
     return loadWithRetry();
   });
 
-  // Return wrapped component with Suspense and ErrorBoundary
-  return forwardRef((props, ref) => (
+  return forwardRef<any, any>((props, ref) => (
     <ErrorBoundary
-      fallback={
-        <div className="flex flex-col items-center justify-center p-8 text-center">
-          <div className="mb-4 text-red-500">
-            <svg className="w-12 h-12 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <h3 className="mb-2 text-lg font-semibold text-gray-900">Failed to load component</h3>
-          <p className="mb-4 text-gray-600">There was an error loading this part of the application.</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 text-white transition-colors rounded-lg bg-primary-600 hover:bg-primary-700"
-          >
-            Reload Page
-          </button>
-        </div>
-      }
-      onError={(error, errorInfo) => {
-        console.error('Lazy component error:', error, errorInfo);
-        if (onError) onError(error);
+      fallback={LazyErrorFallback}
+      onError={(error) => {
+        console.error('Lazy component error:', error);
+        onError?.(error);
       }}
     >
       <Suspense fallback={fallback}>
@@ -129,6 +161,30 @@ export const preloadRoute = (importFn, priority = 'low') => {
     }
   };
 
+  // Polyfill for requestIdleCallback
+  const requestIdleCallbackPolyfill = (callback, options) => {
+    const timeout = options?.timeout || 50;
+    return setTimeout(() => {
+      const start = Date.now();
+      callback({
+        didTimeout: false,
+        timeRemaining: () => Math.max(0, timeout - (Date.now() - start)),
+      });
+    }, 1);
+  };
+
+  const cancelIdleCallbackPolyfill = (id) => clearTimeout(id);
+
+  const requestIdleCallbackFn = 
+    typeof window !== 'undefined' && 'requestIdleCallback' in window
+      ? window.requestIdleCallback
+      : requestIdleCallbackPolyfill;
+
+  const cancelIdleCallbackFn = 
+    typeof window !== 'undefined' && 'cancelIdleCallback' in window
+      ? window.cancelIdleCallback
+      : cancelIdleCallbackPolyfill;
+
   if (priority === 'high') {
     // High priority - preload immediately
     preload();
@@ -137,11 +193,7 @@ export const preloadRoute = (importFn, priority = 'low') => {
     setTimeout(preload, 100);
   } else {
     // Low priority - preload when browser is idle
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(preload, { timeout: 5000 });
-    } else {
-      setTimeout(preload, 2000);
-    }
+    requestIdleCallbackFn(preload, { timeout: 5000 });
   }
 };
 
@@ -156,7 +208,7 @@ export const LazySection = ({
   triggerOnce = true 
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const element = ref.current;
@@ -312,6 +364,10 @@ export const ResourceLoader = ({
   resources,
   children,
   fallback = <SimpleFallback />
+}: { 
+  resources: Record<string, () => Promise<any>>; 
+  children: (loadedResources: Record<string, any>) => ReactNode; 
+  fallback?: ReactNode; 
 }) => {
   const [loadedResources, setLoadedResources] = useState({});
   const [loading, setLoading] = useState(true);
@@ -352,23 +408,23 @@ export const ResourceLoader = ({
 
 // Export commonly used lazy-loaded components
 export const LazyRoutes = {
-  HomePage: createLazyRoute(() => import('@/pages/HomePage'), { chunkName: 'home' }),
-  Login: createLazyRoute(() => import('@/pages/Login'), { chunkName: 'auth' }),
-  Register: createLazyRoute(() => import('@/pages/Register'), { chunkName: 'auth' }),
-  DonorDashboard: createLazyRoute(() => import('@/pages/DonorDashboard'), { chunkName: 'donor' }),
-  AdminDashboard: createLazyRoute(() => import('@/pages/AdminDashboard'), { chunkName: 'admin' }),
-  GovernmentDashboard: createLazyRoute(() => import('@/pages/GovernmentDashboard'), { chunkName: 'government' }),
-  OracleDashboard: createLazyRoute(() => import('@/pages/OracleDashboard'), { chunkName: 'oracle' }),
-  DisasterDetails: createLazyRoute(() => import('@/pages/DisasterDetails'), { chunkName: 'disaster-details' }),
-  TransparencyPortal: createLazyRoute(() => import('@/pages/TransparencyPortal'), { chunkName: 'transparency' }),
-  ProofGallery: createLazyRoute(() => import('@/pages/ProofGallery'), { chunkName: 'proof-gallery' }),
-  APITestPage: createLazyRoute(() => import('@/pages/APITestPage'), { chunkName: 'dev-tools' })
+  HomePage: createLazyRoute(() => import('../components/Home/HomePage'), { chunkName: 'home' }),
+  Login: createLazyRoute(() => import('../app/login/page'), { chunkName: 'auth' }),
+  Register: createLazyRoute(() => import('../app/register/page'), { chunkName: 'auth' }),
+  DonorDashboard: createLazyRoute(() => import('../app/donate/page'), { chunkName: 'donor' }),
+  AdminDashboard: createLazyRoute(() => import('../app/admin/page'), { chunkName: 'admin' }),
+  GovernmentDashboard: createLazyRoute(() => import('../app/government/page'), { chunkName: 'government' }),
+  OracleDashboard: createLazyRoute(() => import('../app/oracle/page'), { chunkName: 'oracle' }),
+  DisasterDetails: createLazyRoute(() => import('../app/disaster/[id]/page'), { chunkName: 'disaster-details' }),
+  TransparencyPortal: createLazyRoute(() => import('../app/transparency/page'), { chunkName: 'transparency' }),
+  ProofGallery: createLazyRoute(() => import('../app/proof/page'), { chunkName: 'proof-gallery' }),
+  // APITestPage: createLazyRoute(() => import('@/pages/APITestPage'), { chunkName: 'dev-tools' })
 };
 
 // Preload critical routes
 export const preloadCriticalRoutes = () => {
   // Preload most commonly accessed routes
-  preloadRoute(() => import('@/pages/HomePage'), 'high');
-  preloadRoute(() => import('@/pages/DonorDashboard'), 'medium');
-  preloadRoute(() => import('@/pages/DisasterDetails'), 'medium');
+  preloadRoute(() => import('../components/Home/HomePage'), 'high');
+  preloadRoute(() => import('../app/donate/page'), 'medium');
+  preloadRoute(() => import('../app/disaster/[id]/page'), 'medium');
 };
