@@ -15,13 +15,13 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useWeb3Store } from '@/store/web3Store';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
-import Modal from '@/components/UI/Modal';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import Modal from '@/components/ui/Modal';
 import { toast } from 'react-hot-toast';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import RoleGuard from '@/components/Auth/RoleGuard';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import RoleGuard from '@/components/auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface Disaster {
     id: number;

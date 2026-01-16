@@ -18,7 +18,7 @@ import {
   Building
 } from 'lucide-react';
 import { useWeb3Store } from '../../store/web3Store';
-import RoleGuard from '../Auth/RoleGuard';
+import RoleGuard from '../auth/RoleGuard';
 
 const RoleBasedNavigation = ({ isMobile = false, isCollapsed = false }: { isMobile?: boolean; isCollapsed?: boolean }) => {
   const { user, isAuthenticated } = useWeb3Store();
@@ -149,6 +149,7 @@ const RoleBasedNavigation = ({ isMobile = false, isCollapsed = false }: { isMobi
         roles={item.roles}
         permissions={item.permissions}
         fallback={null}
+        loadingComponent={null}
       >
         <Link
           href={item.href}

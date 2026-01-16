@@ -22,15 +22,15 @@ import {
     Upload,
     Activity
 } from 'lucide-react';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import Modal from '@/components/UI/Modal';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-hot-toast';
 import { useWeb3Store } from '@/store/web3Store';
-import Layout from '@/components/Layout/Layout';
-import RoleGuard from '@/components/Auth/RoleGuard';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Layout from '@/components/layout/Layout';
+import RoleGuard from '@/components/auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 const OracleDashboard = () => {
     const { isConnected, account, userRole } = useWeb3Store();

@@ -12,8 +12,8 @@ import {
     AlertCircle,
     Info
 } from 'lucide-react';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 import { toast } from 'react-hot-toast';
 
 const SystemSettings = () => {

@@ -4,8 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Users, Heart, ShieldCheck, TrendingUp, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Card from '../UI/Card';
-import Button from '../UI/Button';
+import Card from '../ui/Card';
+import Button from '../ui/Button';
 
 interface GuestWelcomeProps {
     title?: string;

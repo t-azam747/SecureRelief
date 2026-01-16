@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWeb3Store } from '@/store/web3Store';
 import GuestWelcome from './GuestWelcome';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 interface RoleGuardProps {
   children: React.ReactNode;
@@ -13,6 +13,7 @@ interface RoleGuardProps {
   title?: string;
   subtitle?: string;
   fallback?: React.ReactNode | null; // Custom fallback content (or null to hide)
+  loadingComponent?: React.ReactNode; // Custom loading component (or null to hide)
 }
 
 const RoleGuard: React.FC<RoleGuardProps> = ({
@@ -23,7 +24,8 @@ const RoleGuard: React.FC<RoleGuardProps> = ({
   requireConnection = true,
   title = "Access Restricted",
   subtitle = "Please connect your wallet to access this area.",
-  fallback
+  fallback,
+  loadingComponent
 }) => {
   const router = useRouter();
   const { isConnected, isInitialized, userRole, initialize, hasRole, hasPermission } = useWeb3Store();
@@ -42,6 +44,7 @@ const RoleGuard: React.FC<RoleGuardProps> = ({
   }, [isInitialized, initialize]);
 
   if (isChecking) {
+    if (loadingComponent !== undefined) return <>{loadingComponent}</>;
     return (
       <div className="flex items-center justify-center min-h-screen">
         <LoadingSpinner size="lg" aria-label="Checking access permissions..." />
@@ -51,6 +54,7 @@ const RoleGuard: React.FC<RoleGuardProps> = ({
 
   // 1. Connection Check
   if (requireConnection && !isConnected) {
+    if (fallback !== undefined) return <>{fallback}</>;
     return (
       <GuestWelcome
         title={title}

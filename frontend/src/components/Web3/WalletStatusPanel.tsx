@@ -12,7 +12,7 @@ import {
   Settings
 } from 'lucide-react'
 import { useWeb3Store } from '../../store/web3Store'
-import Modal from '../UI/Modal'
+import Modal from '../ui/Modal'
 
 const WalletStatusPanel = () => {
   const {

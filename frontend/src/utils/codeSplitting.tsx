@@ -4,8 +4,8 @@
  */
 
 import { Suspense, lazy, forwardRef, useState, useRef, useEffect, ReactNode } from 'react';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
-import ErrorBoundary from '@/components/UI/ErrorBoundary';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { performanceMonitor } from '@/utils/performance.jsx';
 
 // Simple fallback loading component if LoadingSpinner fails
@@ -72,7 +72,7 @@ export const withLazyLoading = (
 ) => {
   const {
     fallback = <SimpleFallback message="Loading component..." />,
-    onError = () => {},
+    onError = () => { },
     retryCount = 3,
     retryDelay = 1000,
     chunkName = 'lazy-component',
@@ -175,12 +175,12 @@ export const preloadRoute = (importFn, priority = 'low') => {
 
   const cancelIdleCallbackPolyfill = (id) => clearTimeout(id);
 
-  const requestIdleCallbackFn = 
+  const requestIdleCallbackFn =
     typeof window !== 'undefined' && 'requestIdleCallback' in window
       ? window.requestIdleCallback
       : requestIdleCallbackPolyfill;
 
-  const cancelIdleCallbackFn = 
+  const cancelIdleCallbackFn =
     typeof window !== 'undefined' && 'cancelIdleCallback' in window
       ? window.cancelIdleCallback
       : cancelIdleCallbackPolyfill;
@@ -200,12 +200,12 @@ export const preloadRoute = (importFn, priority = 'low') => {
 /**
  * Component-level code splitting
  */
-export const LazySection = ({ 
-  children, 
+export const LazySection = ({
+  children,
   fallback = <SimpleFallback />,
   threshold = 0.1,
   rootMargin = '50px',
-  triggerOnce = true 
+  triggerOnce = true
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -249,15 +249,15 @@ export const LazySection = ({
 export const createAsyncChunk = (chunkName, dependencies) => {
   return async () => {
     performanceMonitor.mark(`chunk-${chunkName}`);
-    
+
     try {
       // Load dependencies in parallel
       const modules = await Promise.all(
         dependencies.map(dep => dep())
       );
-      
+
       performanceMonitor.measure(`chunk-${chunkName}`);
-      
+
       // Return combined module
       return modules.reduce((combined, module) => ({
         ...combined,
@@ -273,10 +273,10 @@ export const createAsyncChunk = (chunkName, dependencies) => {
 /**
  * Progressive feature loading
  */
-export const ProgressiveFeature = ({ 
-  feature, 
+export const ProgressiveFeature = ({
+  feature,
   fallback = null,
-  enableCondition = true 
+  enableCondition = true
 }) => {
   const [FeatureComponent, setFeatureComponent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -319,11 +319,11 @@ export const ProgressiveFeature = ({
 /**
  * Micro-frontend loader
  */
-export const MicroFrontend = ({ 
+export const MicroFrontend = ({
   name,
   url,
   fallback = <SimpleFallback />,
-  onError = null 
+  onError = null
 }) => {
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -333,10 +333,10 @@ export const MicroFrontend = ({
     const loadMicroFrontend = async () => {
       try {
         performanceMonitor.mark(`microfrontend-${name}`);
-        
+
         // Dynamic import of micro-frontend
         const module = await import(/* @vite-ignore */ url);
-        
+
         performanceMonitor.measure(`microfrontend-${name}`);
         setComponent(() => module.default || module);
       } catch (err) {
@@ -360,14 +360,14 @@ export const MicroFrontend = ({
 /**
  * Resource-based code splitting
  */
-export const ResourceLoader = ({ 
+export const ResourceLoader = ({
   resources,
   children,
   fallback = <SimpleFallback />
-}: { 
-  resources: Record<string, () => Promise<any>>; 
-  children: (loadedResources: Record<string, any>) => ReactNode; 
-  fallback?: ReactNode; 
+}: {
+  resources: Record<string, () => Promise<any>>;
+  children: (loadedResources: Record<string, any>) => ReactNode;
+  fallback?: ReactNode;
 }) => {
   const [loadedResources, setLoadedResources] = useState({});
   const [loading, setLoading] = useState(true);
@@ -408,7 +408,7 @@ export const ResourceLoader = ({
 
 // Export commonly used lazy-loaded components
 export const LazyRoutes = {
-  HomePage: createLazyRoute(() => import('../components/Home/HomePage'), { chunkName: 'home' }),
+  HomePage: createLazyRoute(() => import('../components/home/HomePage'), { chunkName: 'home' }),
   Login: createLazyRoute(() => import('../app/login/page'), { chunkName: 'auth' }),
   Register: createLazyRoute(() => import('../app/register/page'), { chunkName: 'auth' }),
   DonorDashboard: createLazyRoute(() => import('../app/donate/page'), { chunkName: 'donor' }),
@@ -424,7 +424,7 @@ export const LazyRoutes = {
 // Preload critical routes
 export const preloadCriticalRoutes = () => {
   // Preload most commonly accessed routes
-  preloadRoute(() => import('../components/Home/HomePage'), 'high');
+  preloadRoute(() => import('../components/home/HomePage'), 'high');
   preloadRoute(() => import('../app/donate/page'), 'medium');
   preloadRoute(() => import('../app/disaster/[id]/page'), 'medium');
 };

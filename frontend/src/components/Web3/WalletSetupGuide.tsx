@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  BookOpen, 
-  Download, 
-  Settings, 
-  CreditCard, 
+import {
+  BookOpen,
+  Download,
+  Settings,
+  CreditCard,
   Shield,
   ExternalLink,
   CheckCircle
 } from 'lucide-react'
-import Modal from '../UI/Modal'
+import Modal from '../ui/Modal'
 
 const WalletSetupGuide = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0)
-  
+
   const steps = [
     {
       title: 'Install MetaMask',
@@ -75,10 +75,10 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
       ]
     }
   ]
-  
+
   const currentStepData = steps[currentStep]
   const Icon = currentStepData.icon
-  
+
   return (
     <Modal
       isOpen={isOpen}
@@ -94,8 +94,8 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
               <motion.div
                 className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                  ${index <= currentStep 
-                    ? 'bg-avalanche-500 text-white' 
+                  ${index <= currentStep
+                    ? 'bg-avalanche-500 text-white'
                     : 'bg-gray-200 text-gray-600'
                   }
                 `}
@@ -117,7 +117,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
             </div>
           ))}
         </div>
-        
+
         {/* Current Step Content */}
         <div className="text-center space-y-4">
           <div className="flex justify-center">
@@ -125,7 +125,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
               <Icon className="h-8 w-8 text-avalanche-600" />
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-xl font-semibold text-gray-900">
               {currentStepData.title}
@@ -135,7 +135,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
             </p>
           </div>
         </div>
-        
+
         {/* Step Details */}
         <div className="space-y-4">
           <div className="bg-gray-50 rounded-lg p-4">
@@ -146,7 +146,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
               ))}
             </ol>
           </div>
-          
+
           {/* Network Details for Step 2 */}
           {currentStepData.networkDetails && (
             <div className="bg-blue-50 rounded-lg p-4">
@@ -161,7 +161,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
               </div>
             </div>
           )}
-          
+
           {/* Action Button */}
           {currentStepData.action && (
             <motion.button
@@ -175,7 +175,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
             </motion.button>
           )}
         </div>
-        
+
         {/* Navigation */}
         <div className="flex justify-between pt-4 border-t">
           <motion.button
@@ -187,7 +187,7 @@ const WalletSetupGuide = ({ isOpen, onClose }) => {
           >
             Previous
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

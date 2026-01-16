@@ -57,10 +57,8 @@ const Layout = ({ children, fullWidth = false }) => {
         </AnimatePresence>
 
         {/* Main Content */}
-        <motion.div
+        <div
           className="flex-1 flex flex-col overflow-hidden bg-white"
-          layout
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
           <main className="flex-1 overflow-y-auto">
             {fullWidth ? (
@@ -87,7 +85,7 @@ const Layout = ({ children, fullWidth = false }) => {
 
           {/* Footer */}
           <Footer />
-        </motion.div>
+        </div>
       </div>
 
       {/* Mobile Bottom Navigation */}

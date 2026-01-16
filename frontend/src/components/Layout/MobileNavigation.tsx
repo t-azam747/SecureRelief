@@ -16,7 +16,7 @@ import {
   Building
 } from 'lucide-react'
 import { useWeb3Store } from '../../store/web3Store'
-import RoleGuard from '../Auth/RoleGuard'
+import RoleGuard from '../auth/RoleGuard'
 
 const MobileNavigation = () => {
   const pathname = usePathname()

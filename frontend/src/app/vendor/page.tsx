@@ -15,14 +15,14 @@ import {
     AlertCircle
 } from 'lucide-react';
 import { useWeb3Store } from '@/store/web3Store';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import Modal from '@/components/UI/Modal';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-hot-toast';
-import Layout from '@/components/Layout/Layout'; // Retaining for type compatibility if needed, though mostly using DashboardLayout now
-import RoleGuard from '@/components/Auth/RoleGuard';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Layout from '@/components/layout/Layout'; // Retaining for type compatibility if needed, though mostly using DashboardLayout now
+import RoleGuard from '@/components/auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface VendorProfile {
     name: string;

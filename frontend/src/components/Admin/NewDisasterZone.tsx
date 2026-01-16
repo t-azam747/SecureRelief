@@ -17,9 +17,9 @@ import { useContract } from '../../hooks/useContract'
 import apiService from '../../services/apiService'
 import { errorHandler, handleError, showSuccess, showWarning } from '../../utils/errorHandler'
 import { validator, validateDisasterZone, validateField } from '../../utils/validator'
-import Modal from '../UI/Modal'
-import Button from '../UI/Button'
-import LoadingSpinner from '../UI/LoadingSpinner'
+import Modal from '../ui/Modal'
+import Button from '../ui/Button'
+import LoadingSpinner from '../ui/LoadingSpinner'
 
 const NewDisasterZone = ({ isOpen, onClose, onSuccess }) => {
   const { isConnected, account, userRole } = useWeb3Store()

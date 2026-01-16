@@ -4,9 +4,9 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { MapPin, Calendar, TrendingUp, AlertTriangle, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Layout from '@/components/Layout/Layout';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
+import Layout from '@/components/layout/Layout';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
 
 const DisasterDetails = () => {
     const params = useParams();

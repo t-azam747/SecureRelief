@@ -12,7 +12,7 @@ import {
   Activity
 } from 'lucide-react';
 import { useWeb3Store } from '../../store/web3Store';
-import RoleGuard from '../Auth/RoleGuard';
+import RoleGuard from '../auth/RoleGuard';
 
 const UniversalDashboard = () => {
   const { user, hasPermission, hasRole } = useWeb3Store();

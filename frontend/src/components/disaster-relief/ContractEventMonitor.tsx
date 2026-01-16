@@ -13,8 +13,8 @@ import {
   Pause,
   Play
 } from 'lucide-react';
-import Card from '../UI/Card';
-import Button from '../UI/Button';
+import Card from '../ui/Card';
+import Button from '../ui/Button';
 
 const ContractEventMonitor = ({ className = '' }) => {
   const [events, setEvents] = useState([]);

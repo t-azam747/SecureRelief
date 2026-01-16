@@ -6,7 +6,7 @@
  */
 
 import toast from 'react-hot-toast';
-import { showActionToast } from '../components/UI/ActionToast';
+import { showActionToast } from '../components/ui/ActionToast';
 
 /* =========================
    Types & Constants

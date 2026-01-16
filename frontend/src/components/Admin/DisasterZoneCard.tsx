@@ -14,8 +14,8 @@ import {
   AlertTriangle,
   CheckCircle
 } from 'lucide-react'
-import Card from '../UI/Card'
-import Button from '../UI/Button'
+import Card from '../ui/Card'
+import Button from '../ui/Button'
 import { useContract } from '../../hooks/useContract'
 
 const DisasterZoneCard = ({ zone, onEdit, onViewDetails }) => {

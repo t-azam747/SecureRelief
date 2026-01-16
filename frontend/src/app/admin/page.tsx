@@ -15,10 +15,10 @@ import {
     Users,
     Shield
 } from 'lucide-react';
-import Button from '@/components/UI/Button';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
-import Card from '@/components/UI/Card'; // Added import for Card if needed or remove if unused, original had it.
-import Modal from '@/components/UI/Modal'; // Assuming Modal is used for NewDisasterZone if it was there? Original had it implicitly or explicitly? 
+import Button from '@/components/ui/Button';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import Card from '@/components/ui/Card'; // Added import for Card if needed or remove if unused, original had it.
+import Modal from '@/components/ui/Modal'; // Assuming Modal is used for NewDisasterZone if it was there? Original had it implicitly or explicitly? 
 // Original imports: Card, Button, LoadingSpinner, various charts, NewDisasterZone...
 // Let's check original imports from Step 245 carefully.
 // Imports: Card, Button, LoadingSpinner.
@@ -26,20 +26,20 @@ import Modal from '@/components/UI/Modal'; // Assuming Modal is used for NewDisa
 // Components... NewDisasterZone, DisasterZoneCard, VendorManagement, SystemSettings.
 // Store, Layout, RoleGuard, DashboardLayout.
 
-import RealTimeStats from '@/components/Charts/RealTimeStats';
-import DonationChart from '@/components/Charts/DonationChart';
-import ImpactMetrics from '@/components/Charts/ImpactMetrics';
-import GeographicDistribution from '@/components/Charts/GeographicDistribution';
-import RealTimeMonitor from '@/components/DisasterRelief/RealTimeMonitor';
-import ContractEventMonitor from '@/components/DisasterRelief/ContractEventMonitor';
-import NewDisasterZone from '../../components/Admin/NewDisasterZone';
-import DisasterZoneCard from '../../components/Admin/DisasterZoneCard';
-import VendorManagement from '../../components/Admin/VendorManagement';
-import SystemSettings from '../../components/Admin/SystemSettings';
+import RealTimeStats from '@/components/charts/RealTimeStats';
+import DonationChart from '@/components/charts/DonationChart';
+import ImpactMetrics from '@/components/charts/ImpactMetrics';
+import GeographicDistribution from '@/components/charts/GeographicDistribution';
+import RealTimeMonitor from '@/components/disaster-relief/RealTimeMonitor';
+import ContractEventMonitor from '@/components/disaster-relief/ContractEventMonitor';
+import NewDisasterZone from '../../components/admin/NewDisasterZone';
+import DisasterZoneCard from '../../components/admin/DisasterZoneCard';
+import VendorManagement from '../../components/admin/VendorManagement';
+import SystemSettings from '../../components/admin/SystemSettings';
 import { useWeb3Store } from '@/store/web3Store';
-import Layout from '@/components/Layout/Layout'; // Kept for types if needed, but DashboardLayout uses it.
-import RoleGuard from '@/components/Auth/RoleGuard';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Layout from '@/components/layout/Layout'; // Kept for types if needed, but DashboardLayout uses it.
+import RoleGuard from '@/components/auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface Alert {
     id: number;

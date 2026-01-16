@@ -14,18 +14,18 @@ import {
     Eye,
     EyeOff
 } from 'lucide-react';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
-import Modal from '@/components/UI/Modal';
-import ESGBondManager from '@/components/Treasury/ESGBondManager';
-import TreasuryAnalytics from '@/components/Treasury/TreasuryAnalytics';
-import CashFlowManager from '@/components/Treasury/CashFlowManager';
-import RiskAssessment from '@/components/Treasury/RiskAssessment';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import Modal from '@/components/ui/Modal';
+import ESGBondManager from '@/components/treasury/ESGBondManager';
+import TreasuryAnalytics from '@/components/treasury/TreasuryAnalytics';
+import CashFlowManager from '@/components/treasury/CashFlowManager';
+import RiskAssessment from '@/components/treasury/RiskAssessment';
 import { toast } from 'react-hot-toast';
-import Layout from '@/components/Layout/Layout';
-import RoleGuard from '@/components/Auth/RoleGuard';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Layout from '@/components/layout/Layout';
+import RoleGuard from '@/components/auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import { useWeb3Store } from '@/store/web3Store';
 
 const TreasuryDashboard = () => {

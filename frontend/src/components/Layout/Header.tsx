@@ -19,10 +19,10 @@ import {
 } from 'lucide-react'
 import { useWeb3Store } from '../../store/web3Store'
 // import { useAuth } from '../../contexts/AuthContext'
-import WalletConnection from '../Web3/WalletConnection'
-import WalletStatusPanel from '../Web3/WalletStatusPanel'
-import RoleGuard from '../Auth/RoleGuard'
-import Button from '../UI/Button'
+import WalletConnection from '../web3/WalletConnection'
+import WalletStatusPanel from '../web3/WalletStatusPanel'
+import RoleGuard from '../auth/RoleGuard'
+import Button from '../ui/Button'
 
 const Header = ({ onMenuClick, onDesktopMenuClick }) => {
   const pathname = usePathname()
@@ -187,6 +187,7 @@ const Header = ({ onMenuClick, onDesktopMenuClick }) => {
             <RoleGuard
               roles={['admin', 'vendor', 'victim']}
               fallback={null}
+              loadingComponent={null}
             >
               <motion.button
                 whileHover={{ scale: 1.05 }}

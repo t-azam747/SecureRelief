@@ -230,6 +230,8 @@ export const useWeb3Store = create<Web3Store>((set, get) => ({
 
   // Initialize Web3 connection
   initialize: async () => {
+    if (get().isInitialized) return
+
     try {
       console.log('Initializing Web3 store...')
 

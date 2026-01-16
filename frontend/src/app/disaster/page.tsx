@@ -13,11 +13,11 @@ import {
     Filter
 } from 'lucide-react';
 import Image from 'next/image';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
-import RoleGuard from '@/components/Auth/RoleGuard';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import DashboardLayout from '@/components/layout/DashboardLayout';
+import RoleGuard from '@/components/auth/RoleGuard';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 // Mock Data
 const MOCK_DISASTERS = [

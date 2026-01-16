@@ -16,10 +16,10 @@ import {
   Users,
   Target
 } from 'lucide-react';
-import Card from '../UI/Card';
-import Button from '../UI/Button';
-import Modal from '../UI/Modal';
-import LoadingSpinner from '../UI/LoadingSpinner';
+import Card from '../ui/Card';
+import Button from '../ui/Button';
+import Modal from '../ui/Modal';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import toast from 'react-hot-toast';
 
 const ESGBondManager = ({ className = '' }) => {

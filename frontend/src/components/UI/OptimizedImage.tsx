@@ -6,7 +6,7 @@
 import { useState, useRef, useEffect, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { ImageOptimizer, performanceMonitor } from '@/utils/performance.jsx';
-import { SkeletonCard as Skeleton } from '@/components/UI/Skeleton';
+import { SkeletonCard as Skeleton } from '@/components/ui/Skeleton';
 
 /**
  * Enhanced Image component with optimization features

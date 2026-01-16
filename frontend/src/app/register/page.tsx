@@ -20,7 +20,7 @@ import {
     Building,
     Heart
 } from 'lucide-react';
-import Button from '@/components/UI/Button';
+import Button from '@/components/ui/Button';
 import { useWeb3Store } from '@/store/web3Store';
 // import { useAuth } from '@/contexts/AuthContext';
 import { showSuccess, handleError } from '@/utils/errorHandler';

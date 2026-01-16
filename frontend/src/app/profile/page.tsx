@@ -16,12 +16,12 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useWeb3Store } from '@/store/web3Store';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from 'react-hot-toast';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
-import RoleGuard from '@/components/Auth/RoleGuard';
+import DashboardLayout from '@/components/layout/DashboardLayout';
+import RoleGuard from '@/components/auth/RoleGuard';
 
 const ProfilePage = () => {
     const { isConnected, account, userRole, usdcBalance, setUserRole } = useWeb3Store();

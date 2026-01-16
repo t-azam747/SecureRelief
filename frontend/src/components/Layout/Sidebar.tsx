@@ -10,7 +10,7 @@ import {
   HelpCircle
 } from 'lucide-react'
 import { useWeb3Store } from '../../store/web3Store'
-import RoleBasedNavigation from '../Navigation/RoleBasedNavigation'
+import RoleBasedNavigation from '../navigation/RoleBasedNavigation'
 
 const Sidebar = ({ isCollapsed = false, onToggle, onClose }: { isCollapsed?: boolean; onToggle?: () => void; onClose?: () => void }) => {
   const { isAuthenticated, user } = useWeb3Store()

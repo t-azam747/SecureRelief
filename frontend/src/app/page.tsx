@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Layout from '@/components/Layout/Layout';
-import HomePage from '@/components/Home/HomePage';
+import Layout from '@/components/layout/Layout';
+import HomePage from '@/components/home/HomePage';
 
 export default function Page() {
   return (

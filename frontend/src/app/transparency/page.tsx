@@ -13,14 +13,14 @@ import {
     Download,
     ExternalLink
 } from 'lucide-react';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
-import LoadingSpinner from '@/components/UI/LoadingSpinner';
-import RealTimeStats from '@/components/Charts/RealTimeStats';
-import DonationChart from '@/components/Charts/DonationChart';
-import ImpactMetrics from '@/components/Charts/ImpactMetrics';
-import GeographicDistribution from '@/components/Charts/GeographicDistribution';
-import DashboardLayout from '@/components/Layout/DashboardLayout';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import RealTimeStats from '@/components/charts/RealTimeStats';
+import DonationChart from '@/components/charts/DonationChart';
+import ImpactMetrics from '@/components/charts/ImpactMetrics';
+import GeographicDistribution from '@/components/charts/GeographicDistribution';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface Transaction {
     id: string;

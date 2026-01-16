@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Wallet, AlertCircle, Download, HelpCircle } from 'lucide-react'
 import { useWeb3Store } from '../../store/web3Store'
-import LoadingSpinner from '../UI/LoadingSpinner'
-import Modal from '../UI/Modal'
+import LoadingSpinner from '../ui/LoadingSpinner'
+import Modal from '../ui/Modal'
 import WalletSetupGuide from './WalletSetupGuide'
 
 const WalletConnection = () => {

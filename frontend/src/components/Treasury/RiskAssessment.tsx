@@ -26,10 +26,10 @@ import {
   Filter,
   Settings
 } from 'lucide-react';
-import Card from '../UI/Card';
-import Button from '../UI/Button';
-import LoadingSpinner from '../UI/LoadingSpinner';
-import Modal from '../UI/Modal';
+import Card from '../ui/Card';
+import Button from '../ui/Button';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import Modal from '../ui/Modal';
 import toast from 'react-hot-toast';
 
 const RiskAssessment = () => {
