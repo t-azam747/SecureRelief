@@ -13,7 +13,7 @@ export function DevToolbar() {
     const roles: UserRole[] = ['guest', 'admin', 'donor', 'beneficiary', 'vendor', 'oracle', 'government'];
 
     return (
-        <div className="fixed bottom-4 right-4 z-[100]">
+        <div className="fixed bottom-4 right-4 z-[100] flex flex-col items-end">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -29,8 +29,8 @@ export function DevToolbar() {
                                     key={r}
                                     onClick={() => { setRole(r); }}
                                     className={`w-full text-left px-2 py-1.5 text-xs rounded transition-colors capitalize ${role === r
-                                            ? 'bg-primary text-primary-foreground font-medium'
-                                            : 'hover:bg-muted text-foreground'
+                                        ? 'bg-primary text-primary-foreground font-medium'
+                                        : 'hover:bg-muted text-foreground'
                                         }`}
                                 >
                                     {r}

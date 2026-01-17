@@ -1,7 +1,7 @@
 
-import { http, createConfig } from 'wagmi'
+import { http, createConfig, createStorage, cookieStorage } from 'wagmi'
 import { mainnet, sepolia, hardhat } from 'wagmi/chains'
-import { injected } from 'wagmi/connectors'
+import { injected, metaMask } from 'wagmi/connectors'
 
 // Define Weilchain (Example configuration, reusing Sepolia or custom if we had chainID)
 export const weilchain = {
@@ -15,8 +15,13 @@ export const weilchain = {
 
 export const config = createConfig({
     chains: [mainnet, sepolia, hardhat], // Added hardhat for local dev
+    ssr: true,
+    storage: createStorage({
+        storage: cookieStorage,
+    }),
     connectors: [
         injected(),
+        metaMask(),
     ],
     transports: {
         [mainnet.id]: http(),

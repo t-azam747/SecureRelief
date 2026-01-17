@@ -5,6 +5,7 @@ import { useAccount, useConnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
 import { useAuth, UserRole } from '@/context/MockAuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ShieldCheck, User, Users, Store, Glasses, Landmark, ArrowRight, Wallet, AlertTriangle, Code } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
@@ -23,7 +24,7 @@ export default function LoginPage() {
     const { connect } = useConnect();
     const { setRole, isAuthenticated, role } = useAuth();
     const router = useRouter();
-    const [isDevMode, setIsDevMode] = useState(false);
+
 
     useEffect(() => {
         if (isAuthenticated && role && role !== 'guest') {
@@ -80,73 +81,52 @@ export default function LoginPage() {
                 <div className="max-w-md w-full space-y-8">
                     <div className="text-center lg:text-left">
                         <h2 className="text-3xl font-bold tracking-tight text-foreground">Welcome Back</h2>
-                        <p className="mt-2 text-muted-foreground">Active Portal Access</p>
+                        <p className="mt-2 text-muted-foreground">Select your role to connect wallet</p>
                     </div>
 
-                    {/* Primary Web3 Login */}
-                    <div className="p-6 border rounded-xl bg-card shadow-sm space-y-4">
-                        <h3 className="font-semibold flex items-center gap-2">
-                            <Wallet className="h-4 w-4 text-primary" />
-                            Connect Wallet
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                            Connect your wallet to automatically access your authorized dashboard (Beneficiary, Vendor, Donor, etc.).
-                        </p>
-                        <Button
-                            className="w-full h-12 text-base"
-                            onClick={() => connect({ connector: injected() })}
-                            disabled={isConnected}
-                        >
-                            <Wallet className="mr-2 h-5 w-5" />
-                            {isConnected ? 'Wallet Connected' : 'Connect MetaMask / Web3'}
-                        </Button>
+                    {/* Role Selection Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {roles.map((r) => (
+                            <button
+                                key={r.id}
+                                onClick={() => handleLogin(r.id)}
+                                className="flex flex-col items-start gap-3 p-4 bg-card hover:bg-muted/50 rounded-xl text-left transition-all border shadow-sm hover:shadow-md hover:border-primary/50 group"
+                            >
+                                <div className="p-2 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                    <r.icon className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <div className="font-semibold text-foreground">{r.label}</div>
+                                    <div className="text-xs text-muted-foreground mt-1">{r.desc}</div>
+                                </div>
+                            </button>
+                        ))}
                     </div>
 
-                    {/* Dev Mode Toggle */}
-                    <div className="pt-8 border-t">
-                        <div className="flex items-center justify-between mb-4">
-                            <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Developer Tools</p>
-                            <Button variant="ghost" size="sm" onClick={() => setIsDevMode(!isDevMode)} className="h-6 text-xs gap-1">
-                                <Code className="h-3 w-3" /> {isDevMode ? 'Hide Overrides' : 'Simulate Roles'}
-                            </Button>
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t" />
                         </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-background px-2 text-muted-foreground">Or connect cleanly</span>
+                        </div>
+                    </div>
 
-                        <AnimatePresence>
-                            {isDevMode && (
-                                <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="overflow-hidden"
-                                >
-                                    <div className="p-4 bg-yellow-50/50 border border-yellow-200 rounded-lg mb-4">
-                                        <div className="flex gap-2 items-start">
-                                            <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
-                                            <div className="text-xs text-yellow-800">
-                                                <strong>Simulation Mode:</strong> Select a role below to forcibly override the auth state without changing wallets.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        {roles.map((r) => (
-                                            <button
-                                                key={r.id}
-                                                onClick={() => handleLogin(r.id)}
-                                                className="flex items-center gap-3 p-3 bg-muted/40 hover:bg-muted rounded-lg text-left transition-colors border border-transparent hover:border-gray-200"
-                                            >
-                                                <div className="p-2 bg-background rounded-md shadow-sm">
-                                                    <r.icon className="h-4 w-4 text-foreground" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-medium">{r.label}</div>
-                                                    <div className="text-[10px] text-muted-foreground">{r.desc}</div>
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                    <Button
+                        variant="outline"
+                        className="w-full h-12 text-base gap-2"
+                        onClick={() => connect({ connector: injected() })}
+                        disabled={isConnected}
+                    >
+                        <Wallet className="h-5 w-5" />
+                        {isConnected ? 'Wallet Connected' : 'Auto-Detect Role'}
+                    </Button>
+
+                    <div className="text-center text-sm text-muted-foreground">
+                        New to SecureRelief?{' '}
+                        <Link href="/signup" className="font-semibold text-primary hover:underline">
+                            Create an account
+                        </Link>
                     </div>
                 </div>
             </div>

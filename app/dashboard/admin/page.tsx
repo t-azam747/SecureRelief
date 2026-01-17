@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 // import { Dialog } from '@headlessui/react';
-import { Plus, ShieldAlert, Users, Wallet, Activity, MapPin, MoreHorizontal, Search, FileCog, AlertTriangle } from 'lucide-react';
+import { Plus, ShieldAlert, Users, Wallet, Activity, MoreHorizontal, Search, FileCog } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RoleGuard } from '@/components/auth/RoleGuard';
 
@@ -170,7 +170,15 @@ export default function AdminDashboard() {
     )
 }
 
-function StatCard({ icon: Icon, label, value, sub, theme = "default" }: any) {
+interface StatCardProps {
+    icon: any; // Lucide icon type is complex, keeping as any or simplified React.ElementType for now
+    label: string;
+    value: string;
+    sub?: string;
+    theme?: 'default' | 'green' | 'red';
+}
+
+function StatCard({ icon: Icon, label, value, sub, theme = "default" }: StatCardProps) {
     return (
         <Card>
             <CardContent className="p-6">

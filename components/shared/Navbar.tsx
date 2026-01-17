@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth, UserRole } from '@/context/MockAuthContext';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { ShieldCheck, Bell, User, LogOut, ChevronDown, Wallet, Menu, X } from 'lucide-react';
@@ -15,15 +16,17 @@ import { injected } from 'wagmi/connectors';
 export function Navbar() {
     const { role, setRole, isAuthenticated, logout: authLogout } = useAuth();
     const { address, isConnected } = useAccount();
-    const { connect } = useConnect();
+    const { connect, connectors } = useConnect();
     const { disconnect } = useDisconnect();
 
     const [isNotifOpen, setIsNotifOpen] = useState(false);
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+    const router = useRouter();
+
     const handleLogin = () => {
-        connect({ connector: injected() });
+        router.push('/login');
     };
 
     const handleDisconnect = () => {
@@ -32,9 +35,9 @@ export function Navbar() {
     };
 
     const navLinks = [
-        { name: 'How it Works', href: '/#how-it-works' },
-        { name: 'Active Reliefs', href: '/#campaigns' },
-        { name: 'Impact', href: '/impact/hurricane-delta' }, // Mock link
+        { name: 'How it Works', href: '/#HowItWorks' },
+        { name: 'Active Reliefs', href: '/campaigns' },
+        { name: 'Impact', href: '/impact' },
     ];
 
     return (

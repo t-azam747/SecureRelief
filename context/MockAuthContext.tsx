@@ -37,9 +37,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (isConnected && address) {
                 const detectedRole = getRoleByAddress(address);
                 console.log(`[Auth] Wallet connected: ${address}. Detected Role: ${detectedRole}`);
-                setRole(detectedRole);
+                if (detectedRole !== role) {
+                    setRole(detectedRole);
+                }
             } else {
-                setRole('guest');
+                if (role !== 'guest') {
+                    setRole('guest');
+                }
             }
         }
     }, [address, isConnected, isDevOverride]);
